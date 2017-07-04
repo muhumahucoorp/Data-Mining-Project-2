@@ -1,0 +1,9 @@
+Attribute: RI, max: 1.53393, min: 1.51115
+Attribute: Na, max: 17.38, min: 10.73
+Attribute: Mg, max: 4.49, min: 0.0
+Attribute: Al, max: 3.5, min: 0.29
+Attribute: Si, max: 75.41, min: 69.81
+Attribute: K, max: 6.21, min: 0.0
+Attribute: Ca, max: 16.19, min: 5.43
+Attribute: Ba, max: 3.15, min: 0.0
+Attribute: Fe, max: 0.51, min: 0.0
