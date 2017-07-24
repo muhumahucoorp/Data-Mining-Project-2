@@ -1,11 +1,11 @@
 -----------------Model----------------
 KMeans(algorithm='auto', copy_x=True, init='k-means++', max_iter=300,
-    n_clusters=7, n_init=10, n_jobs=1, precompute_distances='auto',
+    n_clusters=6, n_init=10, n_jobs=1, precompute_distances='auto',
     random_state=None, tol=0.0001, verbose=0)
 --------------------------------------
-Homogeneity: 0.767
-Completeness: 0.595
-V-measure: 0.670
-Adjusted Rand Index: 0.430
-Adjusted Mutual Information: 0.578
-Silhouette Coefficient: 0.517
+Homogeneity: 0.507
+Completeness: 0.482
+V-measure: 0.494
+Adjusted Rand Index: 0.410
+Adjusted Mutual Information: 0.460
+Silhouette Coefficient: 0.298

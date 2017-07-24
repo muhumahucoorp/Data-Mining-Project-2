@@ -17,12 +17,12 @@ import feature_filter as ff
 def plotkMeans(kMValues, kMClasses):
 
 	X = kMValues
-	y = kMClasses
+	y = kMClasses.values.flatten()
 
 	#Play with the parameters here
-	kMModel = KMeans(n_clusters=7).fit(X)
+	kMModel = KMeans(n_clusters=len(set(y))).fit(X)
 
-	kMexpected = y.values.flatten()
+	kMexpected = y
 	kMpredicted = kMModel.labels_
 	
 	#print(kMexpected)
@@ -47,44 +47,19 @@ def plotkMeans(kMValues, kMClasses):
 	f_performance_measures.write("\n")
 	f_performance_measures.write("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, kMpredicted))
 	f_performance_measures.close()
-
-def plotCluster(data):
-	kmeans = KMeans(n_clusters=7)
-	kmeans.fit(data)
 	
-	# Step size of the mesh. Decrease to increase the quality of the VQ.
-	h = .02     # point in the mesh [x_min, x_max]x[y_min, y_max].
+	unique_labels = set(y)
+	colors = [plt.cm.Spectral(each)
+		for each in np.linspace(0, 1, len(unique_labels))]
+	for k, col in zip(unique_labels, colors):
+		class_member_mask = (y == k)
+		
+		xy = X[class_member_mask]
+		plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
+				markeredgecolor='k', markersize=6)
 	
-	# Plot the decision boundary. For that, we will assign a color to each
-	x_min, x_max = data[:, 0].min() - 1, data[:, 0].max() + 1
-	y_min, y_max = data[:, 1].min() - 1, data[:, 1].max() + 1
-	xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
-	
-	# Obtain labels for each point in mesh. Use last trained model.
-	Z = kmeans.predict(np.c_[xx.ravel(), yy.ravel()])
-	
-	# Put the result into a color plot
-	Z = Z.reshape(xx.shape)
-	plt.figure(1)
-	plt.clf()
-	plt.imshow(Z, interpolation='nearest',
-			extent=(xx.min(), xx.max(), yy.min(), yy.max()),
-			cmap=plt.cm.Paired,
-			aspect='auto', origin='lower')
-	
-	plt.plot(data[:, 0], data[:, 1], 'k.', markersize=2)
-	# Plot the centroids as a white X
-	centroids = kmeans.cluster_centers_
-	plt.scatter(centroids[:, 0], centroids[:, 1],
-			marker='x', s=169, linewidths=3,
-			color='w', zorder=10)
-	plt.title('K-means clustering on the digits dataset (PCA-reduced data)\n'
-			'Centroids are marked with white cross')
-	plt.xlim(x_min, x_max)
-	plt.ylim(y_min, y_max)
-	plt.xticks(())
-	plt.yticks(())
-	plt.show()
+	plt.savefig("Clustering/cluster_kMeans.png")
+	#plt.show()
 
 names = ["Id", "RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "class"]
 values = pd.read_csv('glass.data', delimiter=',', header=None)
@@ -95,8 +70,8 @@ values, classes = ff.filterClasses(values)
 #Decomment to filter atrributes
 #values = ff.filterAttributes(values, ["fLength", "fWidth", "fConc1", "fConc", "fDist"], names)
 
+normalizer = preprocessing.MinMaxScaler()
+values = normalizer.fit_transform(values)
+
 #Decomment to test classifier and plot roc curve
 plotkMeans(values, classes)
-
-#Decomment to plot clustering
-plotCluster(values)

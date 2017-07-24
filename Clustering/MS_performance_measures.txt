@@ -1,0 +1,10 @@
+-----------------Model----------------
+MeanShift(bandwidth=None, bin_seeding=False, cluster_all=True, min_bin_freq=1,
+     n_jobs=1, seeds=None)
+--------------------------------------
+Homogeneity: 0.363
+Completeness: 0.591
+V-measure: 0.450
+Adjusted Rand Index: 0.292
+Adjusted Mutual Information: 0.327
+Silhouette Coefficient: 0.417

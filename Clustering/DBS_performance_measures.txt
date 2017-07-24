@@ -1,9 +1,10 @@
 -----------------Model----------------
-DBSCAN(algorithm='auto', eps=0.5, leaf_size=30, metric='euclidean',
+DBSCAN(algorithm='auto', eps=0.2, leaf_size=30, metric='euclidean',
     min_samples=5, n_jobs=1, p=None)
 --------------------------------------
-Homogeneity: -0.000
-Completeness: 1.000
-V-measure: -0.000
-Adjusted Rand Index: 0.000
-Adjusted Mutual Information: -0.000
+Homogeneity: 0.324
+Completeness: 0.457
+V-measure: 0.379
+Adjusted Rand Index: 0.232
+Adjusted Mutual Information: 0.300
+Silhouette Coefficient: 0.134
