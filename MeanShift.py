@@ -20,7 +20,6 @@ def plotMeanShift(MSValues, MSClasses):
 	y = MSClasses.values.flatten()
 
 	#Play with the parameters here
-	#default settings: eps=0.5, min_samples=5
 	MSModel = MeanShift().fit(X)
 	
 	MSexpected = y

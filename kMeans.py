@@ -58,6 +58,11 @@ def plotkMeans(kMValues, kMClasses):
 		plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
 				markeredgecolor='k', markersize=6)
 	
+	centroids = kMModel.cluster_centers_
+	plt.scatter(centroids[:, 0], centroids[:, 1],
+			marker='x', s=169, linewidths=3,
+			color='b', zorder=10)
+	
 	plt.savefig("Clustering/cluster_kMeans.png")
 	#plt.show()
 
