@@ -25,15 +25,43 @@ def plotkMeans(kMValues, kMClasses):
 	kMexpected = y
 	kMpredicted = kMModel.labels_
 	
-	#print(kMexpected)
-	#print(kMpredicted)
-
+	buffer = np.matrix(kMpredicted).T
+	
+	cluster = X.copy()
+	cluster = np.concatenate((cluster, buffer), axis = 1)
+	
+	
+	purities = []
+	
+	for i in np.unique(kMpredicted):
+		ith_cluster = np.zeros(shape=(0,11))
+		for j in cluster:
+			if(j[:,-1] == i):
+				ith_cluster = np.concatenate((ith_cluster, j), axis=0)
+		mijs = np.sum(np.delete(ith_cluster, 10, axis=1), axis = 0)
+		max_mij = np.max(mijs)
+		mj = np.sum(mijs, axis=1)
+		purities.append(max_mij / mj)
+	
+	mis = np.sum(X, axis=0)
+	m = np.sum(mis)
+	
+	purity = []
+	
+	for p in purities:
+		purityI = 0;
+		for mi in mis:
+			purityI += (mi/m) * p
+		purity.append(purityI)
+	
 	f_performance_measures = open("Clustering/kM_performance_measures.txt", 'w')
 	f_performance_measures.write("-----------------Model----------------")
 	f_performance_measures.write("\n")
 	f_performance_measures.write(kMModel.__str__())
 	f_performance_measures.write("\n")
 	f_performance_measures.write("--------------------------------------")
+	f_performance_measures.write("\n")
+	f_performance_measures.write("Purities: %0.3f" % purities)
 	f_performance_measures.write("\n")
 	f_performance_measures.write("Homogeneity: %0.3f" % metrics.homogeneity_score(kMexpected, kMpredicted))
 	f_performance_measures.write("\n")
@@ -47,6 +75,7 @@ def plotkMeans(kMValues, kMClasses):
 	f_performance_measures.write("\n")
 	f_performance_measures.write("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, kMpredicted))
 	f_performance_measures.close()
+	
 	
 	unique_labels = set(y)
 	colors = [plt.cm.Spectral(each)
